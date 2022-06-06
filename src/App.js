@@ -9,7 +9,6 @@ import initialState from "./data/initialState";
 
 const App = () => {
   const [waypoints, setWaypoints] = useState(initialState);
-  // const [activeMarkers, setActiveMarkers] = useState([]);
 
   const handleAddWaypoint = (e) => {
     const newWayPoint = {
@@ -48,15 +47,6 @@ const App = () => {
     });
   };
 
-  // const handleDeleteWaypoint = (id) => {
-  //   activeMarkers.find((m) => m.id === id).marker.remove();
-  //   setActiveMarkers(activeMarkers.filter((m) => m.id !== id));
-  //   setWaypoints({
-  //     ...waypoints,
-  //     features: waypoints.features.filter((w) => w.properties.id !== id),
-  //   });
-  // };
-
   return (
     <Layout>
       <SideNav>
@@ -75,8 +65,6 @@ const App = () => {
         waypoints={waypoints}
         onAddWaypoint={handleAddWaypoint}
         setWaypoints={setWaypoints}
-        // activeMarkers={activeMarkers}
-        // setActiveMarkers={setActiveMarkers}
       />
     </Layout>
   );
