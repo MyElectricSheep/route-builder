@@ -35,12 +35,24 @@ const App = () => {
     }
   };
 
+  const handleDeleteWaypoint = (id) => {
+    activeMarkers.find((m) => m.id === id).marker.remove();
+    setActiveMarkers(activeMarkers.filter((m) => m.id !== id));
+    setWaypoints({
+      ...waypoints,
+      features: waypoints.features.filter((w) => w.properties.id !== id),
+    });
+  };
+
   return (
     <Layout>
       <SideNav>
         <SideNavTop>
           <Title />
-          <Waypoints waypoints={waypoints} />
+          <Waypoints
+            waypoints={waypoints}
+            onDeleteWaypoint={handleDeleteWaypoint}
+          />
         </SideNavTop>
         <SideNavBottom>
           <Download />

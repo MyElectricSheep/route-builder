@@ -3,7 +3,7 @@ import { GiHamburgerMenu as HamburgerIcon } from "react-icons/gi";
 import { RiDeleteBin7Fill as BinIcon } from "react-icons/ri";
 import styles from "./Waypoint.module.css";
 
-const Waypoint = ({ waypoint }) => {
+const Waypoint = ({ waypoint, onDeleteWaypoint }) => {
   return (
     <div className={styles.container}>
       <div className={styles.handleContainer}>
@@ -13,7 +13,10 @@ const Waypoint = ({ waypoint }) => {
           <span className={styles.id}>{waypoint.properties.id}</span>
         </h3>
       </div>
-      <BinIcon className={styles.bin} />
+      <BinIcon
+        className={styles.bin}
+        onClick={() => onDeleteWaypoint(waypoint.properties.id)}
+      />
     </div>
   );
 };
@@ -32,4 +35,5 @@ Waypoint.propTypes = {
       description: PropTypes.string,
     }),
   }).isRequired,
+  onDeleteWaypoint: PropTypes.func.isRequired,
 };

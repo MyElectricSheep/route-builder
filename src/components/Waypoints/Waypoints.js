@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import Waypoint from "../Waypoint";
 import styles from "./Waypoints.module.css";
 
-const Waypoints = ({ waypoints }) => {
+const Waypoints = ({ waypoints, onDeleteWaypoint }) => {
   return (
     <div className={styles.container}>
       {waypoints.features.map((waypoint) => {
@@ -10,6 +10,7 @@ const Waypoints = ({ waypoints }) => {
           <Waypoint
             key={`${waypoint.properties.title}${waypoint.properties.id}`}
             waypoint={waypoint}
+            onDeleteWaypoint={onDeleteWaypoint}
           />
         );
       })}
@@ -36,4 +37,5 @@ Waypoints.propTypes = {
       })
     ),
   }).isRequired,
+  onDeleteWaypoint: PropTypes.func.isRequired,
 };
