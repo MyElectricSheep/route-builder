@@ -5,8 +5,13 @@ import styles from "./Waypoints.module.css";
 const Waypoints = ({ waypoints }) => {
   return (
     <div className={styles.container}>
-      {waypoints.map((waypoint) => {
-        return <Waypoint key={waypoint} waypoint={waypoint} />;
+      {waypoints.features.map((waypoint) => {
+        return (
+          <Waypoint
+            key={`${waypoint.properties.title}${waypoint.properties.id}`}
+            waypoint={waypoint}
+          />
+        );
       })}
     </div>
   );
@@ -15,5 +20,20 @@ const Waypoints = ({ waypoints }) => {
 export default Waypoints;
 
 Waypoints.propTypes = {
-  waypoints: PropTypes.arrayOf(PropTypes.string).isRequired,
+  waypoints: PropTypes.shape({
+    type: PropTypes.string,
+    features: PropTypes.arrayOf(
+      PropTypes.shape({
+        geometry: PropTypes.shape({
+          type: PropTypes.string,
+          coordinates: PropTypes.arrayOf(PropTypes.number),
+        }),
+        properties: PropTypes.shape({
+          id: PropTypes.number,
+          title: PropTypes.string,
+          description: PropTypes.string,
+        }),
+      })
+    ),
+  }).isRequired,
 };

@@ -1,12 +1,15 @@
+import { useState } from "react";
 import Layout from "./components/Layout";
 import SideNav, { SideNavTop, SideNavBottom } from "./components/SideNav";
 import Title from "./components/Title";
 import Waypoints from "./components/Waypoints";
 import Download from "./components/Download";
-
-const waypoints = ["Waypoint 1", "Waypoint 2", "Waypoint 3", "Waypoint 4"];
+import Map from "./components/Map";
+import initialState from "./data/initialState";
 
 const App = () => {
+  const [waypoints] = useState(initialState);
+
   return (
     <Layout>
       <SideNav>
@@ -18,7 +21,7 @@ const App = () => {
           <Download />
         </SideNavBottom>
       </SideNav>
-      <h2>Allo</h2>
+      <Map waypoints={waypoints} />
     </Layout>
   );
 };

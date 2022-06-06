@@ -8,7 +8,10 @@ const Waypoint = ({ waypoint }) => {
     <div className={styles.container}>
       <div className={styles.handleContainer}>
         <HamburgerIcon className={styles.hamburger} />
-        <h3 className={styles.waypointDesc}>{waypoint}</h3>
+        <h3 className={styles.title}>
+          {waypoint.properties.title}
+          <span className={styles.id}>{waypoint.properties.id}</span>
+        </h3>
       </div>
       <BinIcon className={styles.bin} />
     </div>
@@ -18,5 +21,15 @@ const Waypoint = ({ waypoint }) => {
 export default Waypoint;
 
 Waypoint.propTypes = {
-  waypoint: PropTypes.string.isRequired,
+  waypoint: PropTypes.shape({
+    geometry: PropTypes.shape({
+      type: PropTypes.string,
+      coordinates: PropTypes.arrayOf(PropTypes.number),
+    }),
+    properties: PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      description: PropTypes.string,
+    }),
+  }).isRequired,
 };

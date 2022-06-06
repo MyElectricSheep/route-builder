@@ -24,11 +24,15 @@
   composes: icon;
 }
 
-.waypointDesc {
+.title {
   color: var(--color-text-white);
   font-family: var(--main-font);
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 1px;
+  margin-left: 0.5rem;
+}
+
+.id {
   margin-left: 0.5rem;
 }
