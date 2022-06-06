@@ -8,7 +8,32 @@ import Map from "./components/Map";
 import initialState from "./data/initialState";
 
 const App = () => {
-  const [waypoints] = useState(initialState);
+  const [waypoints, setWaypoints] = useState(initialState);
+  const [activeMarkers, setActiveMarkers] = useState([]);
+
+  const handleAddWaypoint = (e) => {
+    const newWayPoint = {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+      },
+      properties: {
+        title: "Waypoint",
+        description: "Some description",
+      },
+    };
+
+    if (e.type === "click") {
+      setWaypoints((prevWayPoints) => {
+        newWayPoint.geometry.coordinates = [e.lngLat.lng, e.lngLat.lat];
+        newWayPoint.properties.id = prevWayPoints.features.length + 1;
+        return {
+          ...prevWayPoints,
+          features: [...prevWayPoints.features, newWayPoint],
+        };
+      });
+    }
+  };
 
   return (
     <Layout>
@@ -21,7 +46,12 @@ const App = () => {
           <Download />
         </SideNavBottom>
       </SideNav>
-      <Map waypoints={waypoints} />
+      <Map
+        waypoints={waypoints}
+        onAddWaypoint={handleAddWaypoint}
+        activeMarkers={activeMarkers}
+        setActiveMarkers={setActiveMarkers}
+      />
     </Layout>
   );
 };

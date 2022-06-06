@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import styles from "./Map.module.css";
 // eslint-disable-next-line import/no-unresolved
@@ -12,44 +12,49 @@ const {
   REACT_APP_MAP_DEFAULT_ZOOM: zoom,
 } = process.env;
 
-const Map = ({ waypoints }) => {
+const Map = ({ waypoints, onAddWaypoint, activeMarkers, setActiveMarkers }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
+  const createMarkerAndPopup = useCallback(
+    (feature) => {
+      if (!activeMarkers.find((m) => m.id === feature.properties.id)) {
+        const el = document.createElement("div");
+        el.textContent = feature.properties.id;
+        el.className = styles.marker;
+
+        const newMarker = new mapboxgl.Marker(el)
+          .setLngLat(feature.geometry.coordinates)
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }).setHTML(
+              `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+            )
+          );
+        newMarker.addTo(map.current);
+        setActiveMarkers((prevMarkers) => [
+          ...prevMarkers,
+          { id: feature.properties.id, marker: newMarker },
+        ]);
+      }
+    },
+    [activeMarkers, setActiveMarkers]
+  );
+
   useEffect(() => {
-    if (map.current) return;
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/outdoors-v11",
-      center: [lng, lat],
-      zoom,
-    });
+    if (!map.current) {
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/outdoors-v11",
+        center: [lng, lat],
+        zoom,
+      });
 
-    map.current.on("click", (e) => {
-      console.log(e);
-    });
-
-    map.current.on("touchstart", (e) => {
-      console.log(e);
-    });
-
-    const createMarkerAndPopup = (feature) => {
-      const el = document.createElement("div");
-      el.textContent = feature.properties.id;
-      el.className = styles.marker;
-
-      new mapboxgl.Marker(el)
-        .setLngLat(feature.geometry.coordinates)
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
-          )
-        )
-        .addTo(map.current);
-    };
+      map.current.on("click", onAddWaypoint);
+      // map.current.on("touchstart", onAddWaypoint);
+    }
 
     waypoints.features.forEach(createMarkerAndPopup);
-  });
+  }, [waypoints, onAddWaypoint, createMarkerAndPopup]);
 
   return (
     <div>
@@ -77,4 +82,14 @@ Map.propTypes = {
       })
     ),
   }).isRequired,
+  onAddWaypoint: PropTypes.func.isRequired,
+
+  activeMarkers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      // eslint-disable-next-line react/forbid-prop-types
+      marker: PropTypes.any,
+    })
+  ).isRequired,
+  setActiveMarkers: PropTypes.func.isRequired,
 };
