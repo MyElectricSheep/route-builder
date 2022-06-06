@@ -24,6 +24,12 @@
   composes: icon;
 }
 
+.bin:hover,
+.hamburger:hover {
+  color: var(--color-text-white);
+  cursor: pointer;
+}
+
 .title {
   color: var(--color-text-white);
   font-family: var(--main-font);

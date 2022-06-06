@@ -56,7 +56,37 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
     [waypoints, setWaypoints]
   );
 
+  const initializeLines = useCallback((wayPointsCoordinates) => {
+    map.current.addSource("wayPointsCoordinates", wayPointsCoordinates);
+
+    map.current.addLayer({
+      id: "wayPointLines",
+      type: "line",
+      source: "wayPointsCoordinates",
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": "#3c86e1",
+        "line-width": 11,
+      },
+    });
+  }, []);
+
   useEffect(() => {
+    const wayPointsCoordinates = {
+      type: "geojson",
+      data: {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "LineString",
+          coordinates: waypoints.features.map((w) => w.geometry.coordinates),
+        },
+      },
+    };
+
     if (!map.current) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -65,12 +95,21 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
         zoom,
       });
 
+      map.current.once("load", () => {
+        initializeLines(wayPointsCoordinates);
+      });
+
       map.current.on("click", onAddWaypoint);
       // map.current.on("touchstart", onAddWaypoint);
     }
 
     waypoints.features.forEach(createMarkerAndPopup);
-  }, [waypoints, onAddWaypoint, createMarkerAndPopup]);
+
+    const source = map.current.getSource("wayPointsCoordinates");
+    if (source) {
+      source.setData(wayPointsCoordinates.data.geometry);
+    }
+  }, [waypoints, onAddWaypoint, createMarkerAndPopup, initializeLines]);
 
   return (
     <div>

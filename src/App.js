@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import { nanoid } from "nanoid";
 import Layout from "./components/Layout";
 import SideNav, { SideNavTop, SideNavBottom } from "./components/SideNav";
 import Title from "./components/Title";
@@ -26,6 +27,7 @@ const App = () => {
       setWaypoints((prevWayPoints) => {
         newWayPoint.geometry.coordinates = [e.lngLat.lng, e.lngLat.lat];
         newWayPoint.properties.id = prevWayPoints.features.length + 1;
+        // newWayPoint.properties.id = nanoid();
         return {
           ...prevWayPoints,
           features: [...prevWayPoints.features, newWayPoint],
