@@ -1,0 +1,18 @@
+@import "../../styles/global.css";
+
+.container {
+  color: var(--color-text-white);
+  font-family: var(--main-font);
+  margin: 2rem 1.5rem;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+.separator {
+  margin-top: 1.2rem;
+  border: 2.5px solid var(--color-light-grey);
+  border-radius: 1px;
+}

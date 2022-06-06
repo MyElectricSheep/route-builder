@@ -1,0 +1,34 @@
+@import "../../styles/global.css";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem auto;
+  width: 93%;
+}
+
+.handleContainer {
+  display: flex;
+}
+
+.icon {
+  color: var(--color-icon-grey);
+  font-size: 1.3rem;
+}
+
+.hamburger {
+  composes: icon;
+}
+
+.bin {
+  composes: icon;
+}
+
+.waypointDesc {
+  color: var(--color-text-white);
+  font-family: var(--main-font);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-left: 0.5rem;
+}

@@ -1,0 +1,29 @@
+@import "../../styles/global.css";
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  color: var(--color-default-black);
+  font-family: var(--main-font);
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.75rem 2rem;
+  background-color: #c9e269;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
+
+.button:hover {
+  background: #bde133;
+  border: solid #bde133 1px;
+  text-decoration: none;
+}

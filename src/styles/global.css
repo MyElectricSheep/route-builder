@@ -1,0 +1,11 @@
+:root {
+  --color-dark-grey: #383838;
+  --color-light-grey: #4c4c4c;
+  --color-icon-grey: #747474;
+  --color-blue-line: #3c86e1;
+  --color-icon-green: #c9e269;
+  --color-text-white: #fdfdfd;
+  --color-default-black: #000000;
+
+  --main-font: "Roboto", sans-serif;
+}

@@ -1,0 +1,13 @@
+@import "../../styles/global.css";
+
+.container {
+  background-color: var(--color-dark-grey);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.downloadContainer {
+  margin-bottom: 1.5rem;
+}
