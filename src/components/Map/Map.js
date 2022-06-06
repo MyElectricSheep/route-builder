@@ -12,13 +12,17 @@ const {
   REACT_APP_MAP_DEFAULT_ZOOM: zoom,
 } = process.env;
 
-const Map = ({ waypoints, onAddWaypoint, activeMarkers, setActiveMarkers }) => {
+const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
   const createMarkerAndPopup = useCallback(
     (feature) => {
-      if (!activeMarkers.find((m) => m.id === feature.properties.id)) {
+      const targetWayPoint = waypoints.features.find(
+        (m) => m.properties.id === feature.properties.id
+      );
+      if (!targetWayPoint.properties.marker) {
+        // create the mapbox marker instance and add it to the DOM
         const el = document.createElement("div");
         el.textContent = feature.properties.id;
         el.className = styles.marker;
@@ -31,13 +35,25 @@ const Map = ({ waypoints, onAddWaypoint, activeMarkers, setActiveMarkers }) => {
             )
           );
         newMarker.addTo(map.current);
-        setActiveMarkers((prevMarkers) => [
-          ...prevMarkers,
-          { id: feature.properties.id, marker: newMarker },
-        ]);
+
+        // attach the mapbox marker instance to the waypoint's properties in the state
+        setWaypoints((prevWayPoints) => {
+          return {
+            ...prevWayPoints,
+            features: [
+              ...prevWayPoints.features.filter(
+                (f) => f.properties.id !== targetWayPoint.properties.id
+              ),
+              {
+                ...targetWayPoint,
+                properties: { ...targetWayPoint.properties, marker: newMarker },
+              },
+            ],
+          };
+        });
       }
     },
-    [activeMarkers, setActiveMarkers]
+    [waypoints, setWaypoints]
   );
 
   useEffect(() => {
@@ -83,13 +99,5 @@ Map.propTypes = {
     ),
   }).isRequired,
   onAddWaypoint: PropTypes.func.isRequired,
-
-  activeMarkers: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      // eslint-disable-next-line react/forbid-prop-types
-      marker: PropTypes.any,
-    })
-  ).isRequired,
-  setActiveMarkers: PropTypes.func.isRequired,
+  setWaypoints: PropTypes.func.isRequired,
 };

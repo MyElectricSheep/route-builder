@@ -9,7 +9,7 @@ import initialState from "./data/initialState";
 
 const App = () => {
   const [waypoints, setWaypoints] = useState(initialState);
-  const [activeMarkers, setActiveMarkers] = useState([]);
+  // const [activeMarkers, setActiveMarkers] = useState([]);
 
   const handleAddWaypoint = (e) => {
     const newWayPoint = {
@@ -36,13 +36,26 @@ const App = () => {
   };
 
   const handleDeleteWaypoint = (id) => {
-    activeMarkers.find((m) => m.id === id).marker.remove();
-    setActiveMarkers(activeMarkers.filter((m) => m.id !== id));
+    // Remove the waypoint's marker from the DOM through the Mapbox instance
+    waypoints.features
+      .find((w) => w.properties.id === id)
+      .properties.marker.remove();
+
+    // Remove the waypoint from the state
     setWaypoints({
       ...waypoints,
       features: waypoints.features.filter((w) => w.properties.id !== id),
     });
   };
+
+  // const handleDeleteWaypoint = (id) => {
+  //   activeMarkers.find((m) => m.id === id).marker.remove();
+  //   setActiveMarkers(activeMarkers.filter((m) => m.id !== id));
+  //   setWaypoints({
+  //     ...waypoints,
+  //     features: waypoints.features.filter((w) => w.properties.id !== id),
+  //   });
+  // };
 
   return (
     <Layout>
@@ -61,8 +74,9 @@ const App = () => {
       <Map
         waypoints={waypoints}
         onAddWaypoint={handleAddWaypoint}
-        activeMarkers={activeMarkers}
-        setActiveMarkers={setActiveMarkers}
+        setWaypoints={setWaypoints}
+        // activeMarkers={activeMarkers}
+        // setActiveMarkers={setActiveMarkers}
       />
     </Layout>
   );
