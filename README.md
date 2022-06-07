@@ -8,7 +8,7 @@
 
 ### 🛠️ Made with:
 
-This app is intended to use the minimal amount of external dependencies; hence only these were used:
+This app is intended to use the minimal amount of external dependencies; hence only a few were used:
 
 - [MapBox](https://www.mapbox.com/) for the maps and JS SDK
 - [togpx](https://github.com/tyrasd/togpx) to convert geojson data into gpx data
