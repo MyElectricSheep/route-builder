@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { GiHamburgerMenu as HamburgerIcon } from "react-icons/gi";
 import { RiDeleteBin7Fill as BinIcon } from "react-icons/ri";
+import { waypointPropType } from "../../propTypes/commonPropTypes";
 import styles from "./Waypoint.module.css";
 
 const Waypoint = ({ waypoint, onDeleteWaypoint }) => {
@@ -24,16 +25,6 @@ const Waypoint = ({ waypoint, onDeleteWaypoint }) => {
 export default Waypoint;
 
 Waypoint.propTypes = {
-  waypoint: PropTypes.shape({
-    geometry: PropTypes.shape({
-      type: PropTypes.string,
-      coordinates: PropTypes.arrayOf(PropTypes.number),
-    }),
-    properties: PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-      description: PropTypes.string,
-    }),
-  }).isRequired,
+  waypoint: waypointPropType.isRequired,
   onDeleteWaypoint: PropTypes.func.isRequired,
 };

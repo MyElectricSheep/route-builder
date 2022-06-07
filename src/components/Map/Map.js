@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
+import { waypointPropType } from "../../propTypes/commonPropTypes";
 import styles from "./Map.module.css";
 // eslint-disable-next-line import/no-unresolved
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
@@ -77,14 +78,7 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
   useEffect(() => {
     const wayPointsCoordinates = {
       type: "geojson",
-      data: {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: "LineString",
-          coordinates: waypoints.features.map((w) => w.geometry.coordinates),
-        },
-      },
+      data: waypoints.features.find((f) => f.geometry.type === "LineString"),
     };
 
     if (!map.current) {
@@ -103,7 +97,9 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
       // map.current.on("touchstart", onAddWaypoint);
     }
 
-    waypoints.features.forEach(createMarkerAndPopup);
+    waypoints.features
+      .filter((f) => f.geometry.type === "Point")
+      .forEach(createMarkerAndPopup);
 
     const source = map.current.getSource("wayPointsCoordinates");
     if (source) {
@@ -121,22 +117,7 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
 export default Map;
 
 Map.propTypes = {
-  waypoints: PropTypes.shape({
-    type: PropTypes.string,
-    features: PropTypes.arrayOf(
-      PropTypes.shape({
-        geometry: PropTypes.shape({
-          type: PropTypes.string,
-          coordinates: PropTypes.arrayOf(PropTypes.number),
-        }),
-        properties: PropTypes.shape({
-          id: PropTypes.number,
-          title: PropTypes.string,
-          description: PropTypes.string,
-        }),
-      })
-    ),
-  }).isRequired,
+  waypoints: waypointPropType.isRequired,
   onAddWaypoint: PropTypes.func.isRequired,
   setWaypoints: PropTypes.func.isRequired,
 };

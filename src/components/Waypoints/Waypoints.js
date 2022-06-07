@@ -1,19 +1,22 @@
 import PropTypes from "prop-types";
 import Waypoint from "../Waypoint";
+import { waypointPropType } from "../../propTypes/commonPropTypes";
 import styles from "./Waypoints.module.css";
 
 const Waypoints = ({ waypoints, onDeleteWaypoint }) => {
   return (
     <div className={styles.container}>
-      {waypoints.features.map((waypoint) => {
-        return (
-          <Waypoint
-            key={`${waypoint.properties.title}${waypoint.properties.id}`}
-            waypoint={waypoint}
-            onDeleteWaypoint={onDeleteWaypoint}
-          />
-        );
-      })}
+      {waypoints.features
+        .filter((f) => f.geometry.type === "Point")
+        .map((waypoint) => {
+          return (
+            <Waypoint
+              key={`${waypoint.properties.title}${waypoint.properties.id}`}
+              waypoint={waypoint}
+              onDeleteWaypoint={onDeleteWaypoint}
+            />
+          );
+        })}
     </div>
   );
 };
@@ -21,21 +24,6 @@ const Waypoints = ({ waypoints, onDeleteWaypoint }) => {
 export default Waypoints;
 
 Waypoints.propTypes = {
-  waypoints: PropTypes.shape({
-    type: PropTypes.string,
-    features: PropTypes.arrayOf(
-      PropTypes.shape({
-        geometry: PropTypes.shape({
-          type: PropTypes.string,
-          coordinates: PropTypes.arrayOf(PropTypes.number),
-        }),
-        properties: PropTypes.shape({
-          id: PropTypes.number,
-          title: PropTypes.string,
-          description: PropTypes.string,
-        }),
-      })
-    ),
-  }).isRequired,
+  waypoints: waypointPropType.isRequired,
   onDeleteWaypoint: PropTypes.func.isRequired,
 };
