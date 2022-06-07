@@ -47,6 +47,7 @@
     "operator-linebreak": "off",
     "object-curly-newline": "off",
     "arrow-body-style": "off",
+    "function-paren-newline": "off",
     "react/no-did-update-set-state": "error",
     "react/no-unknown-property": "error",
     "react/no-unused-prop-types": "error",

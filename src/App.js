@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-// import { nanoid } from "nanoid";
 
 import Layout from "./components/Layout";
 import SideNav, { SideNavTop, SideNavBottom } from "./components/SideNav";
@@ -15,6 +14,7 @@ const App = () => {
   const [waypoints, setWaypoints] = useState(initialState);
   const draggedWaypoint = useRef();
   const dragOverWaypoint = useRef();
+  const idCounter = useRef(waypoints.features.length);
 
   const refreshLines = () => {
     setWaypoints((prevWayPoints) => {
@@ -53,8 +53,9 @@ const App = () => {
     if (e.type === "click") {
       setWaypoints((prevWayPoints) => {
         newWayPoint.geometry.coordinates = [e.lngLat.lng, e.lngLat.lat];
-        newWayPoint.properties.id = prevWayPoints.features.length;
-        // newWayPoint.properties.id = nanoid();
+        newWayPoint.properties.id = idCounter.current;
+        idCounter.current += 1;
+
         return {
           ...prevWayPoints,
           features: [...prevWayPoints.features, newWayPoint],

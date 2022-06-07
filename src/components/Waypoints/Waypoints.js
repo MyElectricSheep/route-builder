@@ -54,7 +54,7 @@ export default Waypoints;
 
 Waypoints.propTypes = {
   waypoints: waypointPropType.isRequired,
-  hasWaypoints: PropTypes.bool.isRequired,
+  hasWaypoints: PropTypes.number.isRequired,
   onDeleteWaypoint: PropTypes.func.isRequired,
   onDragStart: PropTypes.func.isRequired,
   onDragEnter: PropTypes.func.isRequired,

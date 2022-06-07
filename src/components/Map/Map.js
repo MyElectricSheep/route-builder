@@ -32,10 +32,20 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
           .setLngLat(feature.geometry.coordinates)
           .setPopup(
             new mapboxgl.Popup({ offset: 25 }).setHTML(
-              `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+              `<h3>${feature.properties.title} ${feature.properties.id}</h3><p>${feature.properties.description}</p>`
             )
           );
         newMarker.addTo(map.current);
+
+        // Prevents adding a waypoint if a marker is clicked
+        newMarker.getElement().addEventListener(
+          "click",
+          (e) => {
+            newMarker.togglePopup();
+            e.stopPropagation();
+          },
+          false
+        );
 
         // attach the mapbox marker instance to the waypoint's properties in the state
         setWaypoints((prevWayPoints) => {
@@ -94,7 +104,6 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
       });
 
       map.current.on("click", onAddWaypoint);
-      // map.current.on("touchstart", onAddWaypoint);
     }
 
     waypoints.features
