@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 // import { nanoid } from "nanoid";
 
 import Layout from "./components/Layout";
@@ -13,6 +13,8 @@ import downloadGpx from "./utils/downloadGpx";
 
 const App = () => {
   const [waypoints, setWaypoints] = useState(initialState);
+  const draggedWaypoint = useRef();
+  const dragOverWaypoint = useRef();
 
   const refreshLines = () => {
     setWaypoints((prevWayPoints) => {
@@ -69,7 +71,6 @@ const App = () => {
       .properties.marker.remove();
 
     // Remove the waypoint from the state
-
     const filteredWaypoints = waypoints.features.filter(
       (f) => f.properties.id !== id
     );
@@ -85,6 +86,33 @@ const App = () => {
 
   const handleDownloadWaypoints = () => downloadGpx(waypoints);
 
+  const handleDragStart = (position) => {
+    draggedWaypoint.current = position;
+  };
+
+  const handleDragEnter = (position) => {
+    dragOverWaypoint.current = position;
+
+    const waypointsCopy = [
+      ...waypoints.features.filter((f) => f.geometry.type === "Point"),
+    ];
+
+    const draggedWaypointContent = waypointsCopy[draggedWaypoint.current];
+
+    waypointsCopy.splice(draggedWaypoint.current, 1);
+    waypointsCopy.splice(dragOverWaypoint.current, 0, draggedWaypointContent);
+
+    draggedWaypoint.current = dragOverWaypoint.current;
+    dragOverWaypoint.current = null;
+
+    setWaypoints((prevWayPoints) => ({
+      ...prevWayPoints,
+      features: waypointsCopy,
+    }));
+
+    refreshLines();
+  };
+
   return (
     <Layout>
       <SideNav>
@@ -93,6 +121,8 @@ const App = () => {
           <Waypoints
             waypoints={waypoints}
             onDeleteWaypoint={handleDeleteWaypoint}
+            onDragStart={handleDragStart}
+            onDragEnter={handleDragEnter}
           />
         </SideNavTop>
         <SideNavBottom>

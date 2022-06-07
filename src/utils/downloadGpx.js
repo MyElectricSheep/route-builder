@@ -3,10 +3,6 @@ import togpx from "togpx";
 const handleDownloadFile = (waypoints) => {
   const element = document.createElement("a");
 
-  //   const waypointsWithLines =
-
-  console.log({ waypoints });
-
   const gpx = togpx(waypoints);
 
   const file = new Blob([gpx], {

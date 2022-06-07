@@ -5,6 +5,7 @@
   justify-content: space-between;
   margin: 1.5rem auto;
   width: 93%;
+  cursor: move;
 }
 
 .handleContainer {
@@ -27,6 +28,9 @@
 .bin:hover,
 .hamburger:hover {
   color: var(--color-text-white);
+}
+
+.bin:hover {
   cursor: pointer;
 }
 
@@ -37,6 +41,7 @@
   font-weight: 500;
   letter-spacing: 1px;
   margin-left: 0.5rem;
+  /* cursor: text; */
 }
 
 .id {

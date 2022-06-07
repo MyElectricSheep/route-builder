@@ -13,6 +13,7 @@
 
 .separator {
   margin-top: 1.2rem;
+  background-color: var(--color-light-grey);
   border: 2.5px solid var(--color-light-grey);
   border-radius: 1px;
 }
