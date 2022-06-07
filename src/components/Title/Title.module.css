@@ -17,3 +17,12 @@
   border: 2.5px solid var(--color-light-grey);
   border-radius: 1px;
 }
+
+@media only screen and (max-width: 600px) {
+  .container {
+    margin: 0.6rem 1.5rem;
+  }
+  .separator {
+    margin-top: 0.6rem;
+  }
+}

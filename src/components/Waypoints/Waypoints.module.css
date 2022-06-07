@@ -13,9 +13,15 @@
   font-weight: 500;
   letter-spacing: 1px;
   margin: 0 1.5rem;
-  /* hyphens: auto; */
 }
 
 .addWayPoints {
   margin-top: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    margin: 0;
+    max-height: 15vh;
+  }
 }

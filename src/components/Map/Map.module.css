@@ -3,6 +3,7 @@
 .container {
   height: 100vh;
   width: 100%;
+  grid-area: map;
 }
 
 .marker {
@@ -27,4 +28,10 @@
 .mapboxgl-popup-content {
   text-align: center;
   font-family: var(--main-font);
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    height: 70vh;
+  }
 }

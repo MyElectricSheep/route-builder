@@ -28,3 +28,11 @@
   border: solid #bde133 1px;
   text-decoration: none;
 }
+
+@media only screen and (max-width: 600px) {
+  .button {
+    width: 50%;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+}

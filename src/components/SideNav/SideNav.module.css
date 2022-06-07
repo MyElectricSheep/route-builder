@@ -1,6 +1,7 @@
 @import "../../styles/global.css";
 
 .container {
+  grid-area: nav;
   background-color: var(--color-dark-grey);
   height: 100vh;
   display: flex;
@@ -10,4 +11,13 @@
 
 .downloadContainer {
   margin-bottom: 1.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    height: 30vh;
+  }
+  .downloadContainer {
+    margin-bottom: 0.9rem;
+  }
 }
