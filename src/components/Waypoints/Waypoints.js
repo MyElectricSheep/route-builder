@@ -7,6 +7,7 @@ import styles from "./Waypoints.module.css";
 
 const Waypoints = ({
   waypoints,
+  hasWaypoints,
   onDeleteWaypoint,
   onDragStart,
   onDragEnter,
@@ -24,20 +25,27 @@ const Waypoints = ({
 
   return (
     <div className={styles.container} ref={parent}>
-      {waypoints.features
-        .filter((f) => f.geometry.type === "Point")
-        .map((waypoint, index) => {
-          return (
-            <Waypoint
-              key={`${waypoint.properties.title}${waypoint.properties.id}`}
-              waypoint={waypoint}
-              onDeleteWaypoint={onDeleteWaypoint}
-              onDragStart={onDragStart}
-              onDragEnter={onDragEnter}
-              index={index}
-            />
-          );
-        })}
+      {!hasWaypoints && (
+        <div className={styles.noWayPoints}>
+          <h3>Uh oh! It seems like you have no waypoints at the moment.</h3>
+          <h4 className={styles.addWayPoints}>Click on the map to add some!</h4>
+        </div>
+      )}
+      {!!hasWaypoints &&
+        waypoints.features
+          .filter((f) => f.geometry.type === "Point")
+          .map((waypoint, index) => {
+            return (
+              <Waypoint
+                key={`${waypoint.properties.title}${waypoint.properties.id}`}
+                waypoint={waypoint}
+                onDeleteWaypoint={onDeleteWaypoint}
+                onDragStart={onDragStart}
+                onDragEnter={onDragEnter}
+                index={index}
+              />
+            );
+          })}
     </div>
   );
 };
@@ -46,6 +54,7 @@ export default Waypoints;
 
 Waypoints.propTypes = {
   waypoints: waypointPropType.isRequired,
+  hasWaypoints: PropTypes.bool.isRequired,
   onDeleteWaypoint: PropTypes.func.isRequired,
   onDragStart: PropTypes.func.isRequired,
   onDragEnter: PropTypes.func.isRequired,

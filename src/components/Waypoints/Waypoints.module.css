@@ -5,3 +5,17 @@
   max-height: calc(100vh - 300px);
   overflow: auto;
 }
+
+.noWayPoints {
+  color: var(--color-text-white);
+  font-family: var(--main-font);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin: 0 1.5rem;
+  /* hyphens: auto; */
+}
+
+.addWayPoints {
+  margin-top: 1rem;
+}

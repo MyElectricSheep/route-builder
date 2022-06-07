@@ -53,7 +53,7 @@ const App = () => {
     if (e.type === "click") {
       setWaypoints((prevWayPoints) => {
         newWayPoint.geometry.coordinates = [e.lngLat.lng, e.lngLat.lat];
-        newWayPoint.properties.id = prevWayPoints.features.length + 1;
+        newWayPoint.properties.id = prevWayPoints.features.length;
         // newWayPoint.properties.id = nanoid();
         return {
           ...prevWayPoints,
@@ -117,6 +117,10 @@ const App = () => {
     refreshLines();
   };
 
+  const hasWaypoints = waypoints.features.filter(
+    (f) => f.geometry.type === "Point"
+  ).length;
+
   return (
     <Layout>
       <SideNav>
@@ -124,13 +128,14 @@ const App = () => {
           <Title />
           <Waypoints
             waypoints={waypoints}
+            hasWaypoints={hasWaypoints}
             onDeleteWaypoint={handleDeleteWaypoint}
             onDragStart={handleDragStart}
             onDragEnter={handleDragEnter}
           />
         </SideNavTop>
         <SideNavBottom>
-          <Download onDownload={handleDownloadWaypoints} />
+          {!!hasWaypoints && <Download onDownload={handleDownloadWaypoints} />}
         </SideNavBottom>
       </SideNav>
       <Map

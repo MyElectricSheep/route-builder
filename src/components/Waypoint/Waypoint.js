@@ -26,7 +26,7 @@ const Waypoint = ({
         <HamburgerIcon className={styles.hamburger} />
         <h3 className={styles.title}>
           {waypoint.properties.title}
-          <span className={styles.id}>{index + 1}</span>
+          <span className={styles.id}>{waypoint.properties.id}</span>
         </h3>
       </div>
       <BinIcon

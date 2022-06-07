@@ -9,7 +9,7 @@ const initialState = {
       },
       properties: {
         id: 1,
-        title: "Ben",
+        title: "Waypoint",
         description: "Some description",
       },
     },
@@ -21,7 +21,7 @@ const initialState = {
       },
       properties: {
         id: 2,
-        title: "Charlie",
+        title: "Waypoint",
         description: "Some description",
       },
     },
@@ -33,7 +33,7 @@ const initialState = {
       },
       properties: {
         id: 3,
-        title: "Tony",
+        title: "Waypoint",
         description: "Some description",
       },
     },
@@ -45,7 +45,7 @@ const initialState = {
       },
       properties: {
         id: 4,
-        title: "John",
+        title: "Waypoint",
         description: "Some description",
       },
     },

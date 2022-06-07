@@ -7,9 +7,9 @@ const SideNav = ({ children }) => {
 
 const SideNavTop = ({ children }) => <div>{children}</div>;
 
-const SideNavBottom = ({ children }) => (
-  <div className={styles.downloadContainer}>{children}</div>
-);
+const SideNavBottom = ({ children }) => {
+  return <div className={styles.downloadContainer}>{children}</div>;
+};
 
 export default SideNav;
 

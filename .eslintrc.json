@@ -44,6 +44,7 @@
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": "off",
     "comma-dangle": "off",
+    "operator-linebreak": "off",
     "object-curly-newline": "off",
     "arrow-body-style": "off",
     "react/no-did-update-set-state": "error",
