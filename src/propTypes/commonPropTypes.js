@@ -20,5 +20,4 @@ const waypointPropType = PropTypes.shape({
   ),
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export { waypointPropType };

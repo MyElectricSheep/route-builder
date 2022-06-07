@@ -7,7 +7,8 @@ const SideNav = ({ children }) => {
 
 const SideNavTop = ({ children }) => <div>{children}</div>;
 
-const SideNavBottom = ({ children }) => {
+const SideNavBottom = ({ children, hasWaypoints }) => {
+  if (!hasWaypoints) return null;
   return <div className={styles.downloadContainer}>{children}</div>;
 };
 
@@ -23,4 +24,5 @@ SideNavTop.propTypes = {
 };
 SideNavBottom.propTypes = {
   children: PropTypes.node.isRequired,
+  hasWaypoints: PropTypes.number.isRequired,
 };

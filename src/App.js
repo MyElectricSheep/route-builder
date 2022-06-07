@@ -6,118 +6,23 @@ import Title from "./components/Title";
 import Waypoints from "./components/Waypoints";
 import Download from "./components/Download";
 import Map from "./components/Map";
-import initialState from "./data/initialState";
+import seedData from "./data/seedData";
 
+import {
+  handleAddWaypoint,
+  handleDeleteWaypoint,
+  refreshLines,
+} from "./utils/waypointsAndLines";
+import { handleDragStart, handleDragEnter } from "./utils/dragAndDrop";
 import downloadGpx from "./utils/downloadGpx";
-import loremGenerator from "./utils/loremGenerator";
+
+const { state, lng, lat, zoom } = seedData();
 
 const App = () => {
-  const [waypoints, setWaypoints] = useState(initialState);
+  const [waypoints, setWaypoints] = useState(state);
   const draggedWaypoint = useRef();
   const dragOverWaypoint = useRef();
   const idCounter = useRef(waypoints.features.length);
-
-  const refreshLines = () => {
-    setWaypoints((prevWayPoints) => {
-      const filteredWaypoints = prevWayPoints.features.filter(
-        (f) => f.geometry.type !== "LineString"
-      );
-      return {
-        ...prevWayPoints,
-        features: [
-          ...filteredWaypoints,
-          {
-            type: "Feature",
-            geometry: {
-              type: "LineString",
-              coordinates: filteredWaypoints.map((w) => w.geometry.coordinates),
-            },
-            properties: {},
-          },
-        ],
-      };
-    });
-  };
-
-  const handleAddWaypoint = (e) => {
-    const newWayPoint = {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-      },
-      properties: {
-        title: "Waypoint",
-        description: loremGenerator(),
-      },
-    };
-
-    if (e.type === "click") {
-      setWaypoints((prevWayPoints) => {
-        newWayPoint.geometry.coordinates = [e.lngLat.lng, e.lngLat.lat];
-        newWayPoint.properties.id = idCounter.current;
-        idCounter.current += 1;
-
-        return {
-          ...prevWayPoints,
-          features: [...prevWayPoints.features, newWayPoint],
-        };
-      });
-      refreshLines();
-    }
-  };
-
-  const handleDeleteWaypoint = (id) => {
-    // Remove the waypoint's marker from the DOM through the Mapbox instance
-    waypoints.features
-      .find((w) => w.properties.id === id)
-      .properties.marker.remove();
-
-    // Remove the waypoint from the state
-    const filteredWaypoints = waypoints.features.filter(
-      (f) => f.properties.id !== id
-    );
-
-    const newWayPoints = {
-      ...waypoints,
-      features: [...filteredWaypoints],
-    };
-
-    setWaypoints(newWayPoints);
-    refreshLines();
-  };
-
-  const handleDownloadWaypoints = () => downloadGpx(waypoints);
-
-  const handleDragStart = (position) => {
-    draggedWaypoint.current = position;
-  };
-
-  const handleDragEnter = (e, position) => {
-    if (e.target.tagName === "path" || e.target.tagName === "svg") {
-      return;
-    }
-
-    dragOverWaypoint.current = position;
-
-    const waypointsCopy = [
-      ...waypoints.features.filter((f) => f.geometry.type === "Point"),
-    ];
-
-    const draggedWaypointContent = waypointsCopy[draggedWaypoint.current];
-
-    waypointsCopy.splice(draggedWaypoint.current, 1);
-    waypointsCopy.splice(dragOverWaypoint.current, 0, draggedWaypointContent);
-
-    draggedWaypoint.current = dragOverWaypoint.current;
-    dragOverWaypoint.current = null;
-
-    setWaypoints((prevWayPoints) => ({
-      ...prevWayPoints,
-      features: waypointsCopy,
-    }));
-
-    refreshLines();
-  };
 
   const hasWaypoints = waypoints.features.filter(
     (f) => f.geometry.type === "Point"
@@ -131,19 +36,38 @@ const App = () => {
           <Waypoints
             waypoints={waypoints}
             hasWaypoints={hasWaypoints}
-            onDeleteWaypoint={handleDeleteWaypoint}
-            onDragStart={handleDragStart}
-            onDragEnter={handleDragEnter}
+            onDeleteWaypoint={(id) =>
+              handleDeleteWaypoint(id, waypoints, setWaypoints, refreshLines)
+            }
+            onDragStart={(position) =>
+              handleDragStart(draggedWaypoint, position)
+            }
+            onDragEnter={(e, position) =>
+              handleDragEnter(
+                e,
+                position,
+                draggedWaypoint,
+                dragOverWaypoint,
+                waypoints,
+                setWaypoints,
+                refreshLines
+              )
+            }
           />
         </SideNavTop>
-        <SideNavBottom>
-          {!!hasWaypoints && <Download onDownload={handleDownloadWaypoints} />}
+        <SideNavBottom hasWaypoints={hasWaypoints}>
+          <Download onDownload={() => downloadGpx(waypoints)} />
         </SideNavBottom>
       </SideNav>
       <Map
         waypoints={waypoints}
-        onAddWaypoint={handleAddWaypoint}
+        onAddWaypoint={(e) =>
+          handleAddWaypoint(e, setWaypoints, idCounter, refreshLines)
+        }
         setWaypoints={setWaypoints}
+        lng={lng}
+        lat={lat}
+        zoom={zoom}
       />
     </Layout>
   );

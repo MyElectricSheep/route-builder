@@ -1,4 +1,3 @@
-// import PropTypes from "prop-types";
 import styles from "./Title.module.css";
 
 const Title = () => {
@@ -11,7 +10,3 @@ const Title = () => {
 };
 
 export default Title;
-
-Title.propTypes = {
-  //   children: PropTypes.node.isRequired,
-};

@@ -7,13 +7,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
-const {
-  REACT_APP_MAP_DEFAULT_LONGITUDE: lng,
-  REACT_APP_MAP_DEFAULT_LATITUDE: lat,
-  REACT_APP_MAP_DEFAULT_ZOOM: zoom,
-} = process.env;
-
-const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
+const Map = ({ waypoints, onAddWaypoint, setWaypoints, lng, lat, zoom }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
@@ -23,7 +17,7 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
         (m) => m.properties.id === feature.properties.id
       );
       if (!targetWayPoint.properties.marker) {
-        // create the mapbox marker instance and add it to the DOM
+        // Create the mapbox marker instance and add it to the DOM
         const el = document.createElement("div");
         el.textContent = feature.properties.id;
         el.className = styles.marker;
@@ -47,7 +41,7 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
           false
         );
 
-        // attach the mapbox marker instance to the waypoint's properties in the state
+        // Attach the mapbox marker instance to the waypoint's properties in the state
         setWaypoints((prevWayPoints) => {
           return {
             ...prevWayPoints,
@@ -114,7 +108,15 @@ const Map = ({ waypoints, onAddWaypoint, setWaypoints }) => {
     if (source) {
       source.setData(wayPointsCoordinates.data.geometry);
     }
-  }, [waypoints, onAddWaypoint, createMarkerAndPopup, initializeLines]);
+  }, [
+    waypoints,
+    onAddWaypoint,
+    createMarkerAndPopup,
+    initializeLines,
+    lng,
+    lat,
+    zoom,
+  ]);
 
   return (
     <div>
@@ -129,4 +131,7 @@ Map.propTypes = {
   waypoints: waypointPropType.isRequired,
   onAddWaypoint: PropTypes.func.isRequired,
   setWaypoints: PropTypes.func.isRequired,
+  lng: PropTypes.number.isRequired,
+  lat: PropTypes.number.isRequired,
+  zoom: PropTypes.number.isRequired,
 };
