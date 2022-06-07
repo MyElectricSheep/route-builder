@@ -9,6 +9,7 @@ import Map from "./components/Map";
 import initialState from "./data/initialState";
 
 import downloadGpx from "./utils/downloadGpx";
+import loremGenerator from "./utils/loremGenerator";
 
 const App = () => {
   const [waypoints, setWaypoints] = useState(initialState);
@@ -46,7 +47,7 @@ const App = () => {
       },
       properties: {
         title: "Waypoint",
-        description: "Some description",
+        description: loremGenerator(),
       },
     };
 

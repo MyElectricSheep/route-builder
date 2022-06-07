@@ -10,7 +10,7 @@ const initialState = {
       properties: {
         id: 1,
         title: "Waypoint",
-        description: "Some description",
+        description: "Donec massa sapien faucibus et",
       },
     },
     {
@@ -22,7 +22,7 @@ const initialState = {
       properties: {
         id: 2,
         title: "Waypoint",
-        description: "Some description",
+        description: "Arcu odio ut sem nulla",
       },
     },
     {
@@ -34,7 +34,7 @@ const initialState = {
       properties: {
         id: 3,
         title: "Waypoint",
-        description: "Some description",
+        description: "Quis auctor elit sed vulputate",
       },
     },
     {
@@ -46,7 +46,7 @@ const initialState = {
       properties: {
         id: 4,
         title: "Waypoint",
-        description: "Some description",
+        description: "In cursus turpis massa tincidunt dui ut ornare lectus",
       },
     },
     {
