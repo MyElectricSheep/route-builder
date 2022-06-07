@@ -90,7 +90,11 @@ const App = () => {
     draggedWaypoint.current = position;
   };
 
-  const handleDragEnter = (position) => {
+  const handleDragEnter = (e, position) => {
+    if (e.target.tagName === "path" || e.target.tagName === "svg") {
+      return;
+    }
+
     dragOverWaypoint.current = position;
 
     const waypointsCopy = [

@@ -19,7 +19,7 @@ const Waypoint = ({
         e.dataTransfer.effectAllowed = "move";
         onDragStart(index);
       }}
-      onDragEnter={() => onDragEnter(index)}
+      onDragEnter={(e) => onDragEnter(e, index)}
       onDragOver={(e) => e.preventDefault()}
     >
       <div className={styles.handleContainer}>

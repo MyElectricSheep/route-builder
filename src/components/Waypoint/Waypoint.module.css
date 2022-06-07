@@ -25,13 +25,9 @@
   composes: icon;
 }
 
-.bin:hover,
-.hamburger:hover {
-  color: var(--color-text-white);
-}
-
 .bin:hover {
   cursor: pointer;
+  color: var(--color-text-white);
 }
 
 .title {

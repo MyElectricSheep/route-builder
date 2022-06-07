@@ -1,4 +1,6 @@
+import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import autoAnimate from "@formkit/auto-animate";
 import Waypoint from "../Waypoint";
 import { waypointPropType } from "../../propTypes/commonPropTypes";
 import styles from "./Waypoints.module.css";
@@ -9,8 +11,19 @@ const Waypoints = ({
   onDragStart,
   onDragEnter,
 }) => {
+  const parent = useRef(null);
+
+  useEffect(() => {
+    if (parent.current) {
+      autoAnimate(parent.current, {
+        duration: 400,
+        easing: "ease-in-out",
+      });
+    }
+  }, [parent]);
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={parent}>
       {waypoints.features
         .filter((f) => f.geometry.type === "Point")
         .map((waypoint, index) => {
