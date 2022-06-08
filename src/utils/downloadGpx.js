@@ -6,7 +6,7 @@ const handleDownloadFile = (waypoints) => {
   const gpx = togpx(waypoints);
 
   const file = new Blob([gpx], {
-    type: "text/xml",
+    type: "application/gpx+xml",
   });
 
   const url = URL.createObjectURL(file);
